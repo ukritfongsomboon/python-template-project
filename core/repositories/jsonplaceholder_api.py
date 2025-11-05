@@ -6,9 +6,10 @@ from core.repositories.jsonplaceholder import jsonplaceHolderRepository
 class JsonplaceHolderRepository(jsonplaceHolderRepository):
     """Adapter ที่เก็บข้อมูลในหน่วยความจำ (mock)"""
 
-    def __init__(self):
+    def __init__(self, url: str):
         from core.models.repo_jsonplacehodel import Address, Company, Geo
 
+        self.url = url
         self.users = [
             User(
                 id=1,
@@ -48,4 +49,5 @@ class JsonplaceHolderRepository(jsonplaceHolderRepository):
 
     def get_user(self, user_id: int) -> Optional[User]:
         print("get_user", user_id)
+        print(self.url)
         return next((user for user in self.users if user.id == user_id), None)
