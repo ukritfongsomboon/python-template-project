@@ -50,4 +50,5 @@ class JsonplaceHolderRepository(jsonplaceHolderRepository):
     def get_user(self, user_id: int) -> Optional[User]:
         print("get_user", user_id)
         print(self.url)
+
         return next((user for user in self.users if user.id == user_id), None)
