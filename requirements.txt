@@ -1,3 +1,4 @@
+beartype==0.18.5
 certifi==2025.10.5
 charset-normalizer==3.4.4
 idna==3.11
