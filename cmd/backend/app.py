@@ -15,7 +15,9 @@ api_url = os.getenv("API_URL", "https://jsonplaceholder.typicode.com")
 debug_mode = os.getenv("DEBUG", "False").lower() == "true"
 
 
-# Application setup
+# ================================================================
+# Application Imports
+# ================================================================
 from fastapi import FastAPI
 import uvicorn
 from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
@@ -27,17 +29,25 @@ from core.models.api_response import (
     HealthResponse,
 )
 
-
+# ================================================================
 # Repositories
+# ================================================================
 jsonplacehodelRepo = JsonplaceHolderRepository(api_url)
 
+# ================================================================
 # Services
+# ================================================================
 userSrv = UserService(jsonplacehodelRepo)
 
+# ================================================================
 # Handlers
+# ================================================================
 userHand = userHandler(userSrv)
 
 
+# ================================================================
+# FastAPI setup
+# ================================================================
 app = FastAPI(
     title="User API",
     description="Professional API for managing and retrieving user information from JSONPlaceholder API. Built with FastAPI and Hexagonal Architecture.",
@@ -62,10 +72,8 @@ app = FastAPI(
         200: {
             "description": "Successfully retrieved all users",
         },
-        500: {
-            "description": "Internal server error while fetching users"
-        }
-    }
+        500: {"description": "Internal server error while fetching users"},
+    },
 )
 async def get_users():
     """Get all users from the JSONPlaceholder API."""
@@ -81,10 +89,8 @@ async def get_users():
         200: {
             "description": "Successfully retrieved paginated users",
         },
-        500: {
-            "description": "Internal server error while fetching users"
-        }
-    }
+        500: {"description": "Internal server error while fetching users"},
+    },
 )
 async def get_users_filtered(skip: int = 0, limit: int = 10):
     """Get users with pagination support."""
@@ -101,14 +107,16 @@ async def get_users_filtered(skip: int = 0, limit: int = 10):
         200: {
             "description": "API is healthy and operational",
         }
-    }
+    },
 )
 async def health_check():
     """Check the health and availability of the API."""
     return {"status": "healthy", "message": "API is running"}
 
 
+# ================================================================
 # Application startup
+# ================================================================
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 3000))
     host = os.getenv("HOST", "0.0.0.0")
