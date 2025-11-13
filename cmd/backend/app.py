@@ -10,8 +10,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 env_path = Path(__file__).parent.parent.parent / ".env"
 load_dotenv(env_path)
 
-print("start backend")
-
 # Get environment variables
 api_url = os.getenv("API_URL", "https://jsonplaceholder.typicode.com")
 debug_mode = os.getenv("DEBUG", "False").lower() == "true"
@@ -24,13 +22,15 @@ from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
 from core.services.user_srv import UserService
 from beartype.roar import BeartypeCallHintParamViolation
 
+
+# Repositories
 jsonplacehodelRepo = JsonplaceHolderRepository(api_url)
+
+# Services
 userSrv = UserService(jsonplacehodelRepo)
+
+# Handlers
 
 
 res = userSrv.getAllUser()
 print(res)
-# users = jsonplacehodelRepo.get_users()
-# print(users)
-
-print("\nend backend")
