@@ -77,24 +77,7 @@ app = FastAPI(
 )
 async def get_users():
     """Get all users from the JSONPlaceholder API."""
-    return await userHand.list_users_handler()
-
-
-@app.get(
-    "/api/v1/users/filtered",
-    response_model=PaginatedResponse,
-    summary="Get Users with Pagination",
-    tags=["Users"],
-    responses={
-        200: {
-            "description": "Successfully retrieved paginated users",
-        },
-        500: {"description": "Internal server error while fetching users"},
-    },
-)
-async def get_users_filtered(skip: int = 0, limit: int = 10):
-    """Get users with pagination support."""
-    return await userHand.list_users_with_filter_handler(skip=skip, limit=limit)
+    return await userHand.get_all_users()
 
 
 # Health check endpoint
