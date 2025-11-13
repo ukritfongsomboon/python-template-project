@@ -20,7 +20,6 @@ debug_mode = os.getenv("DEBUG", "False").lower() == "true"
 
 from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
 from core.services.user_srv import UserService
-from beartype.roar import BeartypeCallHintParamViolation
 
 
 # Repositories
