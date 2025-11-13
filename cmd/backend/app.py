@@ -20,11 +20,21 @@ debug_mode = os.getenv("DEBUG", "False").lower() == "true"
 # ================================================================
 from fastapi import FastAPI
 import uvicorn
+
+# import Repositories
 from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
+
+# import Services
 from core.services.user_srv import UserService
+from core.services.comment_srv import CommentService
+
+# import Handlers
 from core.handlers.user_res import UserHandler
+from core.handlers.comment_res import CommentHandler
+
 from core.models.api_response import (
     ApiResponse,
+    CommentApiResponse,
     HealthResponse,
 )
 
@@ -37,11 +47,13 @@ jsonplacehodelRepo = JsonplaceHolderRepository(api_url)
 # Services
 # ================================================================
 userSrv = UserService(jsonplacehodelRepo)
+commentSrv = CommentService(jsonplacehodelRepo)
 
 # ================================================================
 # Handlers
 # ================================================================
 userHand = UserHandler(userSrv)
+commentHand = CommentHandler(commentSrv)
 
 
 # ================================================================
@@ -77,6 +89,23 @@ app = FastAPI(
 async def get_users():
     """Get all users from the JSONPlaceholder API."""
     return userHand.get_all_users()
+
+
+@app.get(
+    "/api/v1/comments",
+    response_model=CommentApiResponse,
+    summary="Get All Comments",
+    tags=["Comments"],
+    responses={
+        200: {
+            "description": "Successfully retrieved all comments",
+        },
+        500: {"description": "Internal server error while fetching comments"},
+    },
+)
+async def get_comments():
+    """Get all comments from the JSONPlaceholder API."""
+    return commentHand.get_all_comment()
 
 
 # Health check endpoint
