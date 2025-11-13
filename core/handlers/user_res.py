@@ -58,6 +58,22 @@ class userHandler:
     async def list_users_handler(self) -> Dict[str, Any]:
         """FastAPI endpoint handler for GET /api/v1/users
 
+        Retrieve all users from the JSONPlaceholder API.
+
+        This endpoint fetches a complete list of all available users and returns them
+        in a standardized format with status and metadata information.
+
+        **Features:**
+        - Returns all users from JSONPlaceholder API
+        - Consistent response format with status codes
+        - Error handling and informative messages
+
+        **Response Format:**
+        - status: Boolean indicating success/failure
+        - code: HTTP status code
+        - message: Descriptive message
+        - data: Array of user objects
+
         Returns:
             Dict: Response with status, code, message and user data
 
@@ -79,6 +95,24 @@ class userHandler:
         self, skip: int = 0, limit: int = 10
     ) -> Dict[str, Any]:
         """FastAPI endpoint handler for GET /api/v1/users/filtered with pagination
+
+        Retrieve users with pagination support.
+
+        This endpoint provides paginated access to the user list, allowing you to
+        control how many results are returned and which records to skip.
+
+        **Parameters:**
+        - skip: Number of records to skip (default: 0)
+        - limit: Maximum number of records to return (default: 10, max: 100)
+
+        **Use Cases:**
+        - Implement infinite scrolling in frontend applications
+        - Reduce memory usage by loading data in chunks
+        - Navigate through large datasets efficiently
+
+        **Example Usage:**
+        - Get first 10 users: `/api/v1/users/filtered?skip=0&limit=10`
+        - Get next 10 users: `/api/v1/users/filtered?skip=10&limit=10`
 
         Args:
             skip: Number of users to skip (default 0)
