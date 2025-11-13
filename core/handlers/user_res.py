@@ -29,32 +29,6 @@ class userHandler:
         """
         return self.userService.getAllUser()
 
-    @beartype
-    def get_user_response(self) -> Dict[str, Any]:
-        """Prepare user response for HTTP response
-
-        Returns:
-            Dict: HTTP response format ready to be serialized to JSON
-        """
-        response = self.userService.getAllUser()
-
-        return {
-            "status": response.status,
-            "code": response.code,
-            "message": response.message,
-            "data": [
-                {
-                    "id": user.id,
-                    "name": user.name,
-                    "username": user.username,
-                    "email": user.email,
-                }
-                for user in response.data
-            ]
-            if response.status
-            else [],
-        }
-
     async def list_users_handler(self) -> Dict[str, Any]:
         """FastAPI endpoint handler for GET /api/v1/users
 
@@ -80,7 +54,26 @@ class userHandler:
         Raises:
             HTTPException: If service returns status=False with code 500
         """
-        response = self.get_user_response()
+        # Get response from service
+        service_response = self.userService.getAllUser()
+
+        # Format response
+        response = {
+            "status": service_response.status,
+            "code": service_response.code,
+            "message": service_response.message,
+            "data": [
+                {
+                    "id": user.id,
+                    "name": user.name,
+                    "username": user.username,
+                    "email": user.email,
+                }
+                for user in service_response.data
+            ]
+            if service_response.status
+            else [],
+        }
 
         # Check if there was an error
         if not response.get("status") and response.get("code") == 500:
@@ -124,7 +117,26 @@ class userHandler:
         Raises:
             HTTPException: If service returns error
         """
-        response = self.get_user_response()
+        # Get response from service
+        service_response = self.userService.getAllUser()
+
+        # Format response
+        response = {
+            "status": service_response.status,
+            "code": service_response.code,
+            "message": service_response.message,
+            "data": [
+                {
+                    "id": user.id,
+                    "name": user.name,
+                    "username": user.username,
+                    "email": user.email,
+                }
+                for user in service_response.data
+            ]
+            if service_response.status
+            else [],
+        }
 
         if not response.get("status"):
             raise HTTPException(
