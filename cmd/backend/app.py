@@ -33,7 +33,13 @@ userSrv = UserService(jsonplacehodelRepo)
 userHand = userHandler(userSrv)
 
 
-app = FastAPI(title="User API", version="1.0.0")
+app = FastAPI(
+    title="User API",
+    version="1.0.0",
+    docs_url="/api/docs",
+    openapi_url="/api/openapi.json",
+    swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}},
+)
 
 
 # FastAPI endpoints
