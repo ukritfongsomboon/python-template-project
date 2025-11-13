@@ -1,11 +1,11 @@
 from beartype import beartype
-import core.services.user as userService
+from core.services.user import userService
 from core.repositories.jsonplaceholder import jsonplaceHolderRepository
 from core.models.srv_user import User
 from core.models.srv_global import ResponseModel
 
 
-class UserService(userService.userService):
+class UserService(userService):
     """Service implementation สำหรับ User"""
 
     @beartype
