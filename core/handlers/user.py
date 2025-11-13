@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List
-from core.models.srv_user import User
 from core.models.srv_global import ResponseModel
 
 
