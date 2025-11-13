@@ -22,6 +22,26 @@ class UserSchema(BaseModel):
         }
 
 
+class CommentSchema(BaseModel):
+    """Comment data model from JSONPlaceholder API"""
+    postId: int = Field(..., description="Post ID")
+    id: int = Field(..., description="Comment ID")
+    name: str = Field(..., description="Comment author name")
+    email: str = Field(..., description="Comment author email")
+    body: str = Field(..., description="Comment text content")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "postId": 1,
+                "id": 1,
+                "name": "id labore ex et quam laborum",
+                "email": "Eliseo@gardn.biz",
+                "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\nquisquam sunt aut facere saepe veniam quis\net sequi qui fugit sunt in. totam sitaque\nmolestiae praesentium quia vero quos aut rerum"
+            }
+        }
+
+
 class PaginationInfo(BaseModel):
     """Pagination information"""
     skip: int = Field(..., description="Number of items skipped")
@@ -49,6 +69,32 @@ class ApiResponse(BaseModel):
                         "name": "Leanne Graham",
                         "username": "Bret",
                         "email": "Sincere@april.biz"
+                    }
+                ]
+            }
+        }
+
+
+class CommentApiResponse(BaseModel):
+    """API response wrapper for comments"""
+    status: bool = Field(..., description="Response status (success/failure)")
+    code: int = Field(..., description="HTTP status code")
+    message: str = Field(..., description="Response message or error description")
+    data: List[CommentSchema] = Field(..., description="Comment data array")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "status": True,
+                "code": 200,
+                "message": "Comments retrieved successfully",
+                "data": [
+                    {
+                        "postId": 1,
+                        "id": 1,
+                        "name": "id labore ex et quam laborum",
+                        "email": "Eliseo@gardn.biz",
+                        "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos"
                     }
                 ]
             }
