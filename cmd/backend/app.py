@@ -22,10 +22,9 @@ from fastapi import FastAPI
 import uvicorn
 from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
 from core.services.user_srv import UserService
-from core.handlers.user_res import userHandler
+from core.handlers.user_res import UserHandler
 from core.models.api_response import (
     ApiResponse,
-    PaginatedResponse,
     HealthResponse,
 )
 
@@ -42,7 +41,7 @@ userSrv = UserService(jsonplacehodelRepo)
 # ================================================================
 # Handlers
 # ================================================================
-userHand = userHandler(userSrv)
+userHand = UserHandler(userSrv)
 
 
 # ================================================================
@@ -77,7 +76,7 @@ app = FastAPI(
 )
 async def get_users():
     """Get all users from the JSONPlaceholder API."""
-    return await userHand.get_all_users()
+    return userHand.get_all_users()
 
 
 # Health check endpoint
