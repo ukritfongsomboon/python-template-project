@@ -34,3 +34,12 @@ class User:
     phone: str
     website: str
     company: Company
+
+
+@dataclass
+class RepoCommentModel:
+    postId: int
+    id: int
+    name: str
+    email: str
+    body: str
