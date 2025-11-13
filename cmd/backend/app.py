@@ -25,7 +25,7 @@ from beartype.roar import BeartypeCallHintParamViolation
 
 jsonplacehodelRepo = JsonplaceHolderRepository(api_url)
 
-user = jsonplacehodelRepo.get_user(1)
-print(user)
+users = jsonplacehodelRepo.get_users()
+print(users)
 
 print("\nend backend")
