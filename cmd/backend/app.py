@@ -38,26 +38,7 @@ app = FastAPI(title="User API", version="1.0.0")
 # FastAPI endpoints
 @app.get("/api/users")
 async def get_users():
-    """Get all users endpoint
-
-    Returns:
-        JSONResponse: List of all users with status and metadata
-    """
-    return userHand.list_users_handler()
-
-
-@app.get("/api/users/filtered")
-async def get_users_filtered(skip: int = 0, limit: int = 10):
-    """Get users with pagination and filtering
-
-    Args:
-        skip: Number of users to skip (default: 0)
-        limit: Maximum number of users to return (default: 10, max: 100)
-
-    Returns:
-        JSONResponse: Paginated list of users with pagination info
-    """
-    return userHand.list_users_with_filter_handler(skip=skip, limit=limit)
+    return await userHand.list_users_handler()
 
 
 # Health check endpoint
@@ -69,3 +50,18 @@ async def health_check():
         dict: Status of the application
     """
     return {"status": "healthy", "message": "API is running"}
+
+
+# Application startup
+if __name__ == "__main__":
+    import uvicorn
+
+    port = int(os.getenv("PORT", 8000))
+    host = os.getenv("HOST", "0.0.0.0")
+
+    uvicorn.run(
+        app,
+        host=host,
+        port=port,
+        log_level="info" if debug_mode else "warning",
+    )
