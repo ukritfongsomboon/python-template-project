@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./cmd/backend/Dockerfile
+    container_name: user-api
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=${API_URL:-https://jsonplaceholder.typicode.com}
+      - DEBUG=${DEBUG:-False}
+      - HOST=0.0.0.0
+      - PORT=3000
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:3000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
