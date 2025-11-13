@@ -17,6 +17,7 @@ debug_mode = os.getenv("DEBUG", "False").lower() == "true"
 
 # Application setup
 from fastapi import FastAPI
+import uvicorn
 from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
 from core.services.user_srv import UserService
 from core.handlers.user_res import userHandler
@@ -36,7 +37,7 @@ app = FastAPI(title="User API", version="1.0.0")
 
 
 # FastAPI endpoints
-@app.get("/api/users")
+@app.get("/api/v1/users")
 async def get_users():
     return await userHand.list_users_handler()
 
@@ -54,11 +55,8 @@ async def health_check():
 
 # Application startup
 if __name__ == "__main__":
-    import uvicorn
-
-    port = int(os.getenv("PORT", 8000))
+    port = int(os.getenv("PORT", 3000))
     host = os.getenv("HOST", "0.0.0.0")
-
     uvicorn.run(
         app,
         host=host,
