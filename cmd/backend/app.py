@@ -21,11 +21,16 @@ debug_mode = os.getenv("DEBUG", "False").lower() == "true"
 #     print(f"API URL: {api_url}")
 
 from core.repositories.jsonplaceholder_api import JsonplaceHolderRepository
+from core.services.user_srv import UserService
 from beartype.roar import BeartypeCallHintParamViolation
 
 jsonplacehodelRepo = JsonplaceHolderRepository(api_url)
+userSrv = UserService(jsonplacehodelRepo)
 
-users = jsonplacehodelRepo.get_users()
-print(users)
+
+res = userSrv.getAllUser()
+print(res)
+# users = jsonplacehodelRepo.get_users()
+# print(users)
 
 print("\nend backend")
